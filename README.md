@@ -10,6 +10,7 @@ This repository contains the source code and implementation of a Learning Manage
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Admin Access](#admin-access)
 - [Subscription Management](#subscription-management)
 
 ## Overview
@@ -98,6 +99,31 @@ Before running this project locally, ensure you have the following installed:
    ```
 
 3. Access the application at [http://localhost:5173](http://localhost:5173)
+
+## Admin Access
+
+New accounts are created with the default `USER` role. To use the admin dashboard, create a user account first and then promote that account to `ADMIN` in MongoDB.
+
+1. Sign up from the client at [http://localhost:5173/signup](http://localhost:5173/signup).
+
+2. Update the new user's role in MongoDB. The server connects to the `Lms` database and stores users in the `users` collection.
+
+   Using `mongosh`:
+
+   ```bash
+   mongosh "<your_mongoDB_URI>"
+   use Lms
+   db.users.updateOne(
+     { email: "admin@example.com" },
+     { $set: { role: "ADMIN" } }
+   )
+   ```
+
+   Replace `admin@example.com` with the email address used during signup.
+
+3. Log in with that account at [http://localhost:5173/login](http://localhost:5173/login).
+
+4. Open the admin dashboard at [http://localhost:5173/admin/dashboard](http://localhost:5173/admin/dashboard). The navigation also shows an `Admin DashBoard` link after an admin user logs in.
 
 ## Subscription Management
 
